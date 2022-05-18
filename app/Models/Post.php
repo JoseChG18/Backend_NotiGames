@@ -13,7 +13,9 @@ class Post extends Model
 
     protected $fillable =[
         'tittle',
-        'description'
+        'description',
+        'user_id',
+        'game_id'
     ];
 
     /**

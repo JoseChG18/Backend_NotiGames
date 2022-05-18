@@ -21,7 +21,7 @@ class Statistic extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users()
+    public function user()
     {
         return $this->belongsToMany(User::class,'statistics_games_users');
     }
@@ -31,7 +31,7 @@ class Statistic extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function games()
+    public function game()
     {
         return $this->belongsToMany(Game::class, 'statistics_games_users');
     }

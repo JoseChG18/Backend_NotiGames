@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use DateTimeInterface;
 
 class UserResource extends JsonResource
 {
@@ -20,10 +21,21 @@ class UserResource extends JsonResource
             'surname' => $this->surname,
             'email' => $this->email,
             'username' => $this->username,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->serializeDate($this->created_at),
+            'updated_at' => $this->serializeDate($this->updated_at),
             'statistics' => $this->whenLoaded('statistics'),
             'games' => $this->whenLoaded("games")->duplicatesStrict()->makeHidden("pivot"),
         ];
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     * 
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }
