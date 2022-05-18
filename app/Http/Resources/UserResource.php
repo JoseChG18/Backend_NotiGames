@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'created_at' => $this->serializeDate($this->created_at),
             'updated_at' => $this->serializeDate($this->updated_at),
             'statistics' => $this->whenLoaded('statistics'),
-            'games' => $this->whenLoaded("games")->duplicatesStrict()->makeHidden("pivot"),
+            'games' => $this->whenLoaded("games")->groupBy("name")->makeHidden("pivot")->makeHidden("created_at")->makeHidden("updated_at"),
         ];
     }
 

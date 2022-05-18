@@ -53,7 +53,7 @@ class UserController extends Controller
         if (is_null($user)) {
             return response()->json('Datos no encontrados', 404); 
         }
-        return response()->json([new UserResource($user)]);
+        return response()->json(new UserResource($user));
     }
 
     public function update(Request $request, User $user){

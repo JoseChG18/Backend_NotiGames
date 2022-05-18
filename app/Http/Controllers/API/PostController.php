@@ -9,13 +9,15 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index(){
-
-        $posts = Post::all();
-        return response()->json($posts);
+    public function index()
+    {
+        $data = Post::all();
+        
+        return response()->json($data,200);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'tittle' => 'required | string | max:255',
             'description' => 'required | string | max:1000'
@@ -24,7 +26,7 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-        
+
         $post = Post::create([
             'tittle' => $request->tittle,
             'description' => $request->description,
@@ -32,10 +34,11 @@ class PostController extends Controller
             'game_id' => $request->game
         ]);
 
-        return response()->json(["Post creado correctamente" , $post]);
+        return response()->json(["Post creado correctamente", $post]);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $post = Post::find($id);
 
         $post->user;
@@ -45,7 +48,8 @@ class PostController extends Controller
         return response()->json($post);
     }
 
-    public function update(Request $request, Post $post){
+    public function update(Request $request, Post $post)
+    {
         $validator = Validator::make($request->all(), [
             'tittle' => 'required | string | max:255',
             'description' => 'required | string | max:1000'
