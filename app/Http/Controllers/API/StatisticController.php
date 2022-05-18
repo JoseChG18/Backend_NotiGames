@@ -18,14 +18,14 @@ class StatisticController extends Controller
         return response()->json($statistics);
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $statistic = Statistic::create([
             'name' => $request->name,
             'value' => $request->value
         ]);
-
-        // DB::insert('insert into statistics_games_users (user_id, game_id, statistic_id) values (?, ?,?)', $idUser,$idGame,$statistic->id);
+        // Falta agregar fechas o si no las pondra a null, talvez necesite controller;
+        DB::insert('insert into statistics_games_users (user_id, game_id, statistic_id) values (?, ?,?)', [$request->idUser, $request->idGame, $statistic->id]);
 
         return response()->json(["Estadistica creada correctamente" , $statistic]);
     }
