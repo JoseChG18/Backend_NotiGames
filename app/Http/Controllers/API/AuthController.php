@@ -15,7 +15,12 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'apellidos' => 'required | string | max:50',
+            'telefono' => 'required | numeric | max:9',
+            'ciudad' => 'required | string | max:70',
+            'provincia' => 'required | string | max:70',
             'email' => 'required|string|email|max:255|unique:users',
+            'username' => 'required | string | max:50',
             'password' => 'required|string|min:8'
         ]);
 
@@ -23,8 +28,13 @@ class AuthController extends Controller
             return response()->json($validator->errors());
         }
         $user = User::create([
-            'name' => $request->name,
+            'nombre' => $request->nombre,
+            'apellidos' => $request->apellidos,
+            'telefono' => $request->telefono,
+            'ciudad' => $request->ciudad,
+            'provincia' => $request->provincia,
             'email' => $request->email,
+            'username' => $request->username,
             'password' => Hash::make($request->password)
         ]);
 
