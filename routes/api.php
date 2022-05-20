@@ -22,17 +22,19 @@ use App\Http\Controllers\API\UserController;
 Route::post('/register', [AuthController::class , 'register']);
 Route::post('/login', [AuthController::class , 'login']);
 
-Route::resource('user', UserController::class );
 Route::resource('post', PostController::class );
-Route::resource('statistic', StatisticController::class );
-Route::resource('comment', CommentController::class );
-Route::resource('game', GameController::class );
+
 
 Route::group(['middleware' => ['auth:sanctum']], function (){
-    Route::get('/profile', function(Request $request){
-        return auth()->user();
-    });
+    // Route::get('/profile', function(Request $request){
+    //     return auth()->user();
+    // });
 
-    Route::post('/logout', [AuthController::class , 'logout']);
+    Route::resource('user', UserController::class );
+    Route::resource('statistic', StatisticController::class );
+    Route::resource('comment', CommentController::class );
+    Route::resource('game', GameController::class );
+    
+    Route::get('/logout', [AuthController::class , 'logout']);
 });
 
