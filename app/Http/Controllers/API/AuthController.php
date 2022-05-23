@@ -20,7 +20,7 @@ class AuthController extends Controller
             'telefono' => 'required | max:9',
             'ciudad' => 'required | max:70',
             'provincia' => 'required | max:70',
-            'email' => 'required | email | max:255|unique:users,email',
+            'email' => 'required | email | max:255 | unique:users,email',
             'username' => 'required | max:50 | unique:users,username',
             'password' => 'required | min:8'
         ]);
@@ -93,8 +93,9 @@ class AuthController extends Controller
     {
         auth()->user()->tokens()->delete();
 
-        return [
+        return response()->json([
+            'status' => 200,
             'message' => 'Haz cerrado sesión correctamente y el token ha sido removido exitosamente.'
-        ];
+        ]);
     }
 }

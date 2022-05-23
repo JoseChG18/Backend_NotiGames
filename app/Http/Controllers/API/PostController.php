@@ -70,6 +70,9 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return response()->json(["Post eliminado Correctamente."]);
+        return response()->json([
+            "status" => 200,
+            "message" => "Post eliminado Correctamente."
+        ]);
     }
 }

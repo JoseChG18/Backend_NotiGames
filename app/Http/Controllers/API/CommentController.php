@@ -21,16 +21,22 @@ class CommentController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json([
+                "errores" => $validator->errors(),
+            ]);
         }
         
         $comment = Comment::create([
             'comment' => $request->comment,
-            'user_id' => $request->user,
-            'post_id' => $request->post
+            'user_id' => $request->user_id,
+            'post_id' => $request->post_id
         ]);
 
-        return response()->json(["Comentario creado correctamente" , $comment]);
+        return response()->json([
+            "status"=> 200,
+            "message" => "Comentario creado correctamente" ,
+            "data" => $comment
+        ]);
     }
 
     public function show($id){
@@ -59,7 +65,9 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->delete();
-
-        return response()->json(["Comentario eliminado Correctamente."]);
+        return response()->json([
+            "status" => 200,
+            "message" => "Comentario eliminado Correctamente."
+        ]);
     }
 }

@@ -35,6 +35,6 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
     Route::resource('comment', CommentController::class );
     Route::resource('game', GameController::class );
     
-    Route::get('/logout', [AuthController::class , 'logout']);
+    Route::post('/logout', [AuthController::class , 'logout']);
 });
 

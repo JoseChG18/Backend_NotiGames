@@ -4,7 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
@@ -66,18 +67,31 @@ class UserController extends Controller
     public function update(Request $request, User $user){
 
         $validator = Validator::make($request->all(), [
-            'nombre' => 'required | string | max:50',
-            'apellidos' => 'required | string | max:50',
-            'telefono' => 'required | numeric | max:9',
-            'ciudad' => 'required | string | max:70',
-            'provincia' => 'required | string | max:70',
-            'email' => 'required | email | max:50',
-            'username' => 'required | string | max:50',
-            'password'=> 'required | string | min:8',
+            'nombre' => 'required | max:255',
+            'apellidos' => 'required | max:50',
+            'telefono' => 'required | max:9',
+            'ciudad' => 'required | max:70',
+            'provincia' => 'required | max:70',
+            // 'email' => [
+            //     'required' ,
+            //     'email',
+            //     'max:100' ,
+            //     Rule::unique('users')->ignore($user->email, 'email'),
+            // ],
+            // 'username' => [
+            //     'required',
+            //     'max:50',
+            //     Rule::unique('users')->ignore($user->username,'username')
+            // ],
+            'email' => 'required | email | max:255 | unique:users,email,'.$user->id,
+            'username' => 'required | max:50 | unique:users,username,'.$user->id,
+            'password' => 'required | min:8'
         ]);
         
-        if($validator->fails()){
-            return response()->json($validator->errors());       
+        if ($validator->fails()) {
+            return response()->json([
+                'errores' => $validator->messages(),
+            ]);
         }
 
         $user->nombre = $request->nombre;
@@ -90,7 +104,10 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return response()->json(["Usuario actualizado correctamente" , $user]);
+        return response()->json([
+            "status" => 200,
+            "message" => "Usuario actualizado correctamente" ,
+            "data" => $user]);
     }
 
     public function destroy(User $user){
