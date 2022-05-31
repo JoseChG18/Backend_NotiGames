@@ -19,22 +19,47 @@ use App\Http\Controllers\API\UserController;
 |
 */
 
-Route::post('/register', [AuthController::class , 'register']);
-Route::post('/login', [AuthController::class , 'login']);
+Route::post('/register', [AuthController::class , 'register'])->name("auth.register");
+Route::post('/login', [AuthController::class , 'login'])->name("auth.login");
 
-Route::resource('post', PostController::class );
 
+Route::get('post/{post}', [PostController::class , 'show'])->name("post.show");
+Route::get('post', [PostController::class , 'index'])->name("post.index");
+
+Route::get('game', [GameController::class , 'index'])->name("game.index");
+
+Route::get('user/{user}', [UserController::class , 'show'])->name("user.show");
 
 Route::group(['middleware' => ['auth:sanctum']], function (){
     // Route::get('/profile', function(Request $request){
     //     return auth()->user();
     // });
 
-    Route::resource('user', UserController::class );
+    // Route::resource('user', UserController::class );
+    Route::prefix('user')->group(function () {
+        Route::delete('{user}', [UserController::class , 'destroy'])->name("user.destroy");
+        Route::get('/', [UserController::class , 'index'])->name("user.index");
+        Route::put('{user}', [UserController::class , 'update'])->name("user.update");
+    });
+
+    // Route::resource('post', PostController::class );
+    Route::prefix('post')->group(function () {
+        Route::put('{post}', [PostController::class , 'update'])->name("post.update");
+        Route::delete('{post}', [PostController::class , 'destroy'])->name("post.destroy");
+        Route::post('/', [PostController::class , 'store'])->name("post.store");
+    });
+
     Route::resource('statistic', StatisticController::class );
     Route::resource('comment', CommentController::class );
-    Route::resource('game', GameController::class );
+
+    // Route::resource('game', GameController::class );
+    Route::prefix('game')->group(function () {
+        Route::post('/', [GameController::class , 'store'])->name("game.store");
+        Route::delete('{game}', [GameController::class , 'destroy'])->name("game.destroy");
+        Route::get('{game}', [GameController::class , 'show'])->name("game.show");
+        Route::put('{game}', [GameController::class , 'update'])->name("game.update");
+    });
     
-    Route::post('/logout', [AuthController::class , 'logout']);
+    Route::post('/logout', [AuthController::class , 'logout'])->name("auth.logout");
 });
 
