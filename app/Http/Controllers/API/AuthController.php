@@ -10,8 +10,21 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 
+/**
+ * Clase Validacion en la pagina web.
+ * [Description AuthController] Proporciona las comprobaciones y validaciones pertinentes que se realizan a la hora de registrarse, realizar login o cerrar sesion.
+ */
+
 class AuthController extends Controller
 {
+    /**
+     * Funcion para validar el registro de un usuario en la pagina web.
+     * 
+     * Esta funcion valida cuando un usuario introduce los datos en el formulario si son correctos.
+     * 
+     * @param Request $request solicitud.
+     * @return response devuelve el acceso o no dependiendo de si el registro se realizo correctamente (200 ok en caso de correcto).
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -54,6 +67,15 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Funcion para validar login usuario en la pagina.
+     * 
+     * Esta funcion nos valida al usuario que intenta entrar con una cuenta a la pagina web.
+     * 
+     * @param Request $request solicitud.
+     * @return response devuelve si el login fue validado correctamente, en el caso de que si redirige a Home.
+     */
+
     public function login(Request $request)
     {   
         $validator = Validator::make($request->all(), [
@@ -88,6 +110,13 @@ class AuthController extends Controller
             
         }
     }
+
+    /**
+     * Fucion para validar el cierre de la sesion del usuario.
+     * 
+     * Esta funcion reliza el cierre el usuario con su token para evitar robos de cuenta y suplantaciones de identidad.
+     * @return response devuelve una solicitud conforme has cerrado sesion.
+     */
 
     public function logout()
     {
