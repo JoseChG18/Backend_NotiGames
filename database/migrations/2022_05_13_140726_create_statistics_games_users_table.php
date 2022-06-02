@@ -14,9 +14,9 @@ class CreateStatisticsGamesUsersTable extends Migration
     public function up()
     {
         Schema::create('statistics_games_users', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('game_id')->constrained('games');
-            $table->foreignId('statistic_id')->constrained('statistics');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
+            $table->foreignId('statistic_id')->constrained('statistics')->onDelete('cascade');
             $table->timestamps();
         });
     }

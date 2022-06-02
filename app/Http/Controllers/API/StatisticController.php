@@ -25,7 +25,7 @@ class StatisticController extends Controller
             'value' => $request->value
         ]);
         // Falta agregar fechas o si no las pondra a null, talvez necesite controller;
-        DB::insert('insert into statistics_games_users (user_id, game_id, statistic_id) values (?, ?,?)', [$request->idUser, $request->idGame, $statistic->id]);
+        DB::insert('insert into statistics_games_users (user_id, game_id, statistic_id,created_at,updated_at) values (?, ?,?,?,?)', [$request->idUser, $request->idGame, $statistic->id, date('Y-m-d H:i:s'),date('Y-m-d H:i:s')]);
 
         return response()->json(["Estadistica creada correctamente" , $statistic]);
     }
@@ -52,8 +52,6 @@ class StatisticController extends Controller
     public function destroy(Statistic $statistic)
     {
         $statistic->delete();
-
-        // DB::delete('delete statistics_games_users where user_id = ? AND game_id = ? AND statistic_id = ?', $idUser, $idGame, $idStat);
 
         return response()->json("Estadistica eliminada correctamente.");
     }

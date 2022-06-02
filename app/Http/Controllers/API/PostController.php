@@ -61,6 +61,7 @@ class PostController extends Controller
 
         $post->tittle = $request->tittle;
         $post->description = $request->description;
+        $post->game_id = $request->idGame;
         $post->save();
 
         return response()->json(["Post Actualizado correctamente.", $post]);
