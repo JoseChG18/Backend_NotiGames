@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 /**
  * Clase controladora de los comentarios.
  * 
- * [Description CommentController] Esta clase controla la gestion de los comentarios que tiene cada publicacion (POST) de la pagina.
+ * [Description CommentController] Esta clase controla la gestion de los comentarios que tiene cada publicacion (POST) de la pagina (CRUD).
  */
 
 class CommentController extends Controller
@@ -84,7 +84,6 @@ class CommentController extends Controller
      * 
      * @param Request $request solicitud.
      * @param Comment $comment identificador del comentario.
-     * 
      * @return response En caso de que todo sea correcto actualiza el comentario de lo contrario error.
      */
 

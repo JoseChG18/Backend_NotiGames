@@ -10,8 +10,17 @@ use App\Models\User;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Clase controladora de los Usuarios.
+ * [Description UserController] en esta clase se procesa el CRUD de los usuarios.
+ */
+
 class UserController extends Controller
 {
+    /**
+     * Guardar datos en JSON.
+     * @return response json con los usuarios cargadas.
+     */
 
     public function index(){
 
@@ -19,6 +28,15 @@ class UserController extends Controller
         
         return response()->json($users);
     }
+
+    /**
+     * Funcion para validar la creacion correcta los usuarios.
+     * 
+     * Valida que la creacion de unos usuarios sea correcta.
+     * 
+     * @param Request $request solicitud pagina.
+     * @return response Devuelve si el usuario fue creado correctamente en este caso (200 ok) en caso de error (dato error).
+     */
 
     public function store(Request $request){
 
@@ -51,6 +69,16 @@ class UserController extends Controller
         return response()->json(["Usuario creado correctamente" , $user]);
     }
     
+     /**
+     * 
+     * Funcion para mostrar los usuarios.
+     * 
+     * Esta funcion muestra los usuarios que existen.
+     * 
+     * @param mixed $id usuarios que hay.
+     * @return response las usuarios que existen en la pagina.
+     */
+
     public function show($id)
     {
         $user = User::find($id);
@@ -64,6 +92,16 @@ class UserController extends Controller
         return response()->json(new UserResource($user));
     }
 
+    /**
+     * Funcion para actualizar Usuarios.
+     * 
+     * Esta funcion actualiza las Usuarios.
+     * 
+     * @param Request $request solicitud
+     * @param Post $post identificador del usuario.
+     * @return response Devuelve en caso de todo correcto del usuario actualizado (200 ok) de lo contrario error.
+     */
+
     public function update(Request $request, User $user){
 
         $validator = Validator::make($request->all(), [
@@ -72,17 +110,6 @@ class UserController extends Controller
             'telefono' => 'required | max:9',
             'ciudad' => 'required | max:70',
             'provincia' => 'required | max:70',
-            // 'email' => [
-            //     'required' ,
-            //     'email',
-            //     'max:100' ,
-            //     Rule::unique('users')->ignore($user->email, 'email'),
-            // ],
-            // 'username' => [
-            //     'required',
-            //     'max:50',
-            //     Rule::unique('users')->ignore($user->username,'username')
-            // ],
             'email' => 'required | email | max:255 | unique:users,email,'.$user->id,
             'username' => 'required | max:50 | unique:users,username,'.$user->id,
             'password' => 'required | min:8'
@@ -109,6 +136,15 @@ class UserController extends Controller
             "message" => "Usuario actualizado correctamente" ,
             "data" => $user]);
     }
+
+    /**
+     * Funcion para borrar Usuarios.
+     * 
+     * Esta funcion elimina Usuarios.
+     * 
+     * @param Post $post identificador del usuario.
+     * @return response Eliminacion del usuario correctamente (200 ok).
+     */
 
     public function destroy(User $user){
         $user->delete();
