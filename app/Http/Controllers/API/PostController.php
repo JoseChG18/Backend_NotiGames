@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Models\Post;
 use Validator;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 /**
  * Clase controladora de las publicaciones (POSTS).
@@ -22,8 +23,8 @@ class PostController extends Controller
 
     public function index()
     {
-        $data = Post::all();
-        
+        // $data = Post::all();
+        $data = DB::table('posts')->where('created_at', '<=' , date('Y-m-d H:i:s'))->get();
         return response()->json($data,200);
     }
 
@@ -123,6 +124,16 @@ class PostController extends Controller
         return response()->json([
             "status" => 200,
             "message" => "Post eliminado Correctamente."
+        ]);
+    }
+
+    public function searchByName(Request $request)
+    {
+        $posts = DB::table('posts')->where('tittle', 'like', '%'.$request->palabra.'%')->get();
+        $users = DB::table('users')->where('username', 'like', '%'.$request->palabra.'%')->get();
+        return response()->json([
+            'posts' => $posts,
+            'users' => $users
         ]);
     }
 }

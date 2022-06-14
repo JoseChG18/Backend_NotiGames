@@ -22,14 +22,14 @@ use App\Http\Controllers\API\UserController;
 Route::post('/register', [AuthController::class , 'register'])->name("auth.register");
 Route::post('/login', [AuthController::class , 'login'])->name("auth.login");
 
-
+Route::post('post/search', [PostController::class , 'searchByName'])->name("post.search");
 Route::get('post/{post}', [PostController::class , 'show'])->name("post.show");
 Route::get('post', [PostController::class , 'index'])->name("post.index");
 
 Route::get('game', [GameController::class , 'index'])->name("game.index");
 
 Route::get('user/{user}', [UserController::class , 'show'])->name("user.show");
-
+Route::get('user/avatar/{user}',[UserController::class , 'getProfile'])->name('user.getProfile');
 Route::group(['middleware' => ['auth:sanctum']], function (){
     // Route::get('/profile', function(Request $request){
     //     return auth()->user();
@@ -40,8 +40,9 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
         Route::delete('{user}', [UserController::class , 'destroy'])->name("user.destroy");
         Route::get('/', [UserController::class , 'index'])->name("user.index");
         Route::put('{user}', [UserController::class , 'update'])->name("user.update");
+        Route::post('avatar/{user}',[UserController::class , 'updateProfile'])->name('user.updateProfile');
     });
-
+    Route::put('admin/{user}', [UserController::class , 'addAdmin'])->name("user.admin");
     // Route::resource('post', PostController::class );
     Route::prefix('post')->group(function () {
         Route::put('{post}', [PostController::class , 'update'])->name("post.update");

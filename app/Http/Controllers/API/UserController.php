@@ -69,7 +69,7 @@ class UserController extends Controller
         return response()->json(["Usuario creado correctamente" , $user]);
     }
     
-     /**
+    /**
      * 
      * Funcion para mostrar los usuarios.
      * 
@@ -150,5 +150,40 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(["Usuario eliminado Correctamente."]);
+    }
+    public function addAdmin(Request $request, User $user)
+    {
+        $user->admin = $request->admin;
+        $user->save();
+
+        return response()->json([
+            "status" => 200,
+            "message" => "Usuario actualizado correctamente" ,
+            "data" => $user]);
+    }
+
+    public function updateProfile(Request $request,User $user)
+    {
+        $validator = Validator::make($request->all(), [
+            'avatar' => 'required | image | max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errores' => $validator->messages(),
+            ]);
+        }
+
+        $filename = $user->username. '.' .$request->avatar->getClientOriginalExtension();
+        $request->avatar->move(public_path('uploads/avatars'),$filename);
+
+        $user->foto = $filename;
+        $user->save();
+        return response()->json($filename);
+    }
+
+    public function getProfile(User $user)
+    {
+        return response()->json($user->foto);
     }
 }

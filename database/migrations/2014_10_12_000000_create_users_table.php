@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('ciudad', 100);
             $table->string('provincia', 100);
             $table->string('email')->unique();
+            $table->string('foto',200)->default("default.png");
             $table->timestamp('email_verified_at')->nullable();
             $table->string('username');
             $table->string('password');
