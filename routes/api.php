@@ -31,11 +31,7 @@ Route::get('game', [GameController::class , 'index'])->name("game.index");
 Route::get('user/{user}', [UserController::class , 'show'])->name("user.show");
 Route::get('user/avatar/{user}',[UserController::class , 'getProfile'])->name('user.getProfile');
 Route::group(['middleware' => ['auth:sanctum']], function (){
-    // Route::get('/profile', function(Request $request){
-    //     return auth()->user();
-    // });
 
-    // Route::resource('user', UserController::class );
     Route::prefix('user')->group(function () {
         Route::delete('{user}', [UserController::class , 'destroy'])->name("user.destroy");
         Route::get('/', [UserController::class , 'index'])->name("user.index");
@@ -43,7 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
         Route::post('avatar/{user}',[UserController::class , 'updateProfile'])->name('user.updateProfile');
     });
     Route::put('admin/{user}', [UserController::class , 'addAdmin'])->name("user.admin");
-    // Route::resource('post', PostController::class );
+
     Route::prefix('post')->group(function () {
         Route::put('{post}', [PostController::class , 'update'])->name("post.update");
         Route::delete('{post}', [PostController::class , 'destroy'])->name("post.destroy");
@@ -53,7 +49,7 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
     Route::resource('statistic', StatisticController::class );
     Route::resource('comment', CommentController::class );
 
-    // Route::resource('game', GameController::class );
+
     Route::prefix('game')->group(function () {
         Route::post('/', [GameController::class , 'store'])->name("game.store");
         Route::delete('{game}', [GameController::class , 'destroy'])->name("game.destroy");
