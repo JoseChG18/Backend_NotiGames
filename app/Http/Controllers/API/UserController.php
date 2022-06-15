@@ -168,6 +168,16 @@ class UserController extends Controller
             "data" => $user]);
     }
 
+    /**
+     * Funcion para actualizar la foto del perfil usuario.
+     * 
+     * Esta funcion actualiza el perfil del usuario cuando desee cambiar su foto (trae una por defecto en caso de nunca haberla cambiado).
+     * @param Request $request
+     * @param User $user
+     * 
+     * @return [response] Retorna la imagen subida al servidor.
+     */
+
     public function updateProfile(Request $request,User $user)
     {
         $validator = Validator::make($request->all(), [
@@ -188,6 +198,15 @@ class UserController extends Controller
         return response()->json($filename);
     }
 
+    /**
+     * Funcion obtener foto perfil.
+     * 
+     * Funcion para obtener la foto que tiene ese usuario en su perfil
+     * @param User $user
+     * 
+     * @return [response] devuelve la foto del perfil del usuario
+     */
+    
     public function getProfile(User $user)
     {
         return response()->json($user->foto);

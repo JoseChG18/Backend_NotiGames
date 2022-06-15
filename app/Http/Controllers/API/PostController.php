@@ -127,6 +127,15 @@ class PostController extends Controller
         ]);
     }
 
+    /**
+     * Funcion para buscar datos.
+     * 
+     * Funcion que sirve para buscar coincidencias en los titulos de los post y con los usernames de los usuarios.
+     * @param Request $request
+     * 
+     * @return [response] Retorna los datos que coincidieron con la busqueda del usuario.
+     */
+    
     public function searchByName(Request $request)
     {
         $posts = DB::table('posts')->where('tittle', 'like', '%'.$request->palabra.'%')->get();
