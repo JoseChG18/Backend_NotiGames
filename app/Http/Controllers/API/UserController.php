@@ -83,13 +83,19 @@ class UserController extends Controller
     {
         $user = User::find($id);
 
-        $user->statistics;
-        $user->games;
-        
-        if (is_null($user)) {
-            return response()->json('Datos no encontrados', 404); 
+        if ($user) {
+            $user->statistics;
+            $user->games;
         }
-        return response()->json(new UserResource($user));
+
+        if (is_null($user)) {
+            return response()->json([
+                'status'=> '404',
+                'message'=> 'Datos no encontrados']); 
+        }
+        return response()->json([
+            'status' => 200,
+            'data' => new UserResource($user)]);
     }
 
     /**
