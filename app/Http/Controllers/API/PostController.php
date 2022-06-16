@@ -24,7 +24,7 @@ class PostController extends Controller
     public function index()
     {
         // $data = Post::all();
-        $data = DB::table('posts')->where('created_at', '<=' , date('Y-m-d H:i:s'))->get();
+        $data = DB::table('posts')->where('fecha_publicacion', '<=' , date('Y-m-d H:i:s'))->get();
         return response()->json($data,200);
     }
 
@@ -51,8 +51,10 @@ class PostController extends Controller
         $post = Post::create([
             'tittle' => $request->tittle,
             'description' => $request->description,
+            'fecha_publicacion' => $request->fechaPublicacion,
             'user_id' => $request->user,
-            'game_id' => $request->game
+            'game_id' => $request->game,
+            
         ]);
 
         return response()->json(["Post creado correctamente", $post]);

@@ -17,6 +17,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('tittle', 50);
             $table->longText('description');
+            $table->timestamp('fecha_publicacion')->useCurrent();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
             $table->timestamps();

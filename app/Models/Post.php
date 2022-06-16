@@ -15,7 +15,8 @@ class Post extends Model
         'tittle',
         'description',
         'user_id',
-        'game_id'
+        'game_id',
+        'fecha_publicacion'
     ];
 
     /**
