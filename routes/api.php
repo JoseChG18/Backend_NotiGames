@@ -22,7 +22,7 @@ use App\Http\Controllers\API\UserController;
 Route::post('/register', [AuthController::class , 'register'])->name("auth.register");
 Route::post('/login', [AuthController::class , 'login'])->name("auth.login");
 
-Route::post('post/search', [PostController::class , 'searchByName'])->name("post.search");
+Route::get('post/search', [PostController::class , 'searchByName'])->name("post.search");
 Route::get('post/{post}', [PostController::class , 'show'])->name("post.show");
 Route::get('post', [PostController::class , 'index'])->name("post.index");
 
